@@ -21,8 +21,8 @@ class DataJstats:
         "YGC": "number_of_young_generation_GC_events",
         "YGCT": "young_generation_garbage_collection_time",
         "FGC": "number_of_stop_the_world_events",
-        "FGCT": "full_garbage_collection_time",
-        "GCT": "total_garbage_collection_time"
+        "FGCT": "full_garbage_collection_time"
+        # "GCT": "total_garbage_collection_time"
     }
 
     # Stats coming from -gccapacity

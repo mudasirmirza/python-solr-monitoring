@@ -7,7 +7,8 @@ AWS_LIMIT_METRICS_SIZE = 20
 
 class Metrics:
     def __init__(self, region, instance_id, instance_type, image_id,
-                 aggregated, autoscaling_group_name):
+                 aggregated):
+        #, autoscaling_group_name):
         self.names = []
         self.units = []
         self.values = []
@@ -17,7 +18,7 @@ class Metrics:
         self.instance_type = instance_type
         self.image_id = image_id
         self.aggregated = aggregated
-        self.autoscaling_group_name = autoscaling_group_name
+        # self.autoscaling_group_name = autoscaling_group_name
 
     def add_metric(self, name, unit, value, mount=None, file_system=None):
         common_dims = {}
@@ -31,8 +32,8 @@ class Metrics:
         if self.aggregated != 'only':
             dims.append({'InstanceId': self.instance_id})
 
-        if self.autoscaling_group_name:
-            dims.append({'AutoScalingGroupName': self.autoscaling_group_name})
+        # if self.autoscaling_group_name:
+        #     dims.append({'AutoScalingGroupName': self.autoscaling_group_name})
 
         if self.aggregated:
             dims.append({'InstanceType': self.instance_type})

@@ -94,8 +94,8 @@ def main():
                 print '    ' + key + '\t' + str(data['value'])
             print '============'
 
-        metrics.add_metric('solr_GCT_perc', 'Percent',
-                           100.0 * (data_end["GCT"]["value"] - data_start["GCT"]["value"]) / SLEEP)
+        # metrics.add_metric('solr_GCT_perc', 'Percent',
+        #                    100.0 * (data_end["GCT"]["value"] - data_start["GCT"]["value"]) / SLEEP)
         metrics.add_metric('solr_heap_used_perc', 'Percent',
                            data_end["heap_used_perc"]["value"])
 
