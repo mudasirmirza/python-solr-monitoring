@@ -1,6 +1,6 @@
 from monitoring.cli.data import DataCollector
 from monitoring.cli.data_jstats import DataJstats
-from monitoring.cli.data_solr_admin import DataSolrAdmin
+from monitoring.cli.solr_admin import DataSolrAdmin
 from monitoring.cli.metrics import Metrics
 
 from monitoring.cloudwatch_client import *
@@ -13,6 +13,7 @@ import boto.ec2.autoscale
 
 CLIENT_NAME = 'CloudWatch-PutInstanceData'
 FileCache.CLIENT_NAME = CLIENT_NAME
+
 
 @FileCache
 def get_autoscaling_group_name(region, instance_id, verbose):
@@ -74,18 +75,17 @@ def main():
 
         region = metadata['placement']['availability-zone'][:-1]
         instance_id = metadata['instance-id']
-        autoscaling_group_name = get_autoscaling_group_name(region,
-                instance_id,
-                args.verbose)
-        if args.verbose:
-            print 'Autoscaling group: ' + autoscaling_group_name
+        # autoscaling_group_name = get_autoscaling_group_name(region,
+        #                                                     instance_id,
+        #                                                     args.verbose)
+        # if args.verbose:
+        #     print 'Autoscaling group: ' + autoscaling_group_name
 
         metrics = Metrics(region,
                           instance_id,
                           metadata['instance-type'],
                           metadata['ami-id'],
-                          True,
-                          autoscaling_group_name)
+                          True)
 
         if args.verbose:
             print '============'
@@ -94,8 +94,10 @@ def main():
                 print '    ' + key + '\t' + str(data['value'])
             print '============'
 
-        metrics.add_metric('solr_GCT_perc', 'Percent', 100.0 * (data_end["GCT"]["value"] - data_start["GCT"]["value"]) / SLEEP)
-        metrics.add_metric('solr_heap_used_perc', 'Percent', data_end["heap_used_perc"]["value"])
+        metrics.add_metric('solr_GCT_perc', 'Percent',
+                           100.0 * (data_end["GCT"]["value"] - data_start["GCT"]["value"]) / SLEEP)
+        metrics.add_metric('solr_heap_used_perc', 'Percent',
+                           data_end["heap_used_perc"]["value"])
 
         if args.cache_hits:
             for key, data in [(key, data) for key, data in data_end.iteritems() if "_fc_hitratio" in key]:
@@ -104,7 +106,6 @@ def main():
         if args.cache_evictions:
             for key, data in [(key, data) for key, data in data_end.iteritems() if "_fc_evictions" in key]:
                 metrics.add_metric('solr_' + key, 'Count', data_end[key]["value"])
-
 
         if args.verbose:
             print 'Metrics:'

@@ -2,6 +2,7 @@ import urlparse
 import urllib2
 import json
 
+
 class DataSolrAdmin:
     SYSTEM_INFO_URL = '/solr/admin/info/system?wt=json'
     CORES_INFO_URL = '/solr/admin/cores?wt=json&indexInfo=false'
