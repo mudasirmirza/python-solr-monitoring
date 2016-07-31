@@ -61,9 +61,9 @@ def main():
             print 'Working in verbose mode'
             print 'Boto-Version: ' + boto.__version__
 
-        data_start = DataCollector(DataJstats()).get_metrics()
-        time.sleep( SLEEP )
-        data_end = DataCollector(DataJstats(), DataSolrAdmin('http://localhost:8983/')).get_metrics()
+        # data_start = DataCollector(DataJstats()).get_metrics()
+        # time.sleep(SLEEP)
+        data_end = DataCollector(DataSolrAdmin('http://localhost:8983/')).get_metrics()
 
         #metrics = Metrics(gct=(data_end["GCT"]["value"] - data_start["GCT"]["value"]))
         #print "GCT for minute: ", metrics.gct
