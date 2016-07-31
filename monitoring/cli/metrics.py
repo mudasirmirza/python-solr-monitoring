@@ -4,6 +4,7 @@ import datetime
 
 AWS_LIMIT_METRICS_SIZE = 20
 
+
 class Metrics:
     def __init__(self, region, instance_id, instance_type, image_id,
                  aggregated, autoscaling_group_name):
